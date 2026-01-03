@@ -1,0 +1,1538 @@
+/* Global & Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    background-color: #000;
+}
+
+/* ----------------
+   Loading Screen 
+   ---------------- */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease-in-out;
+}
+
+.logo-container {
+    margin-bottom: 50px;
+}
+
+.apple-logo-img {
+    filter: brightness(0) invert(1);
+    /* Force white silhouette */
+}
+
+.progress-bar-track {
+    width: 200px;
+    height: 6px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #333;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: #fff;
+    border-radius: 10px;
+    transition: width 1.0s ease-in-out;
+}
+
+/* Power Screen */
+#power-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.power-btn-container {
+    width: 120px;
+    height: 120px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.power-btn-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.power-icon {
+    font-size: 50px;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.4s ease;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.power-btn-container:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4),
+        0 0 60px rgba(255, 255, 255, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.power-btn-container:hover::before {
+    opacity: 1;
+}
+
+.power-btn-container:hover .power-icon {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+        0 0 40px rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+.power-btn-container:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+
+
+/* OS Selection Screen */
+#os-selection-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #2b2b2b 0%, #000 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.os-title {
+    font-size: 32px;
+    margin-bottom: 60px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-family: 'Patrick Hand', cursive;
+    text-transform: none;
+    text-align: center;
+    line-height: 1.3;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(to bottom, #fff, #bbb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.os-container {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+}
+
+.os-card {
+    width: 300px;
+    height: 300px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.os-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.os-card.mac:hover {
+    box-shadow: 0 0 50px rgba(0, 150, 255, 0.4);
+}
+
+.os-card.win:hover {
+    box-shadow: 0 0 50px rgba(255, 80, 80, 0.4);
+}
+
+.os-image-container {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.os-img {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+    transition: transform 0.3s;
+}
+
+.os-card:hover .os-img {
+    transform: scale(1.15);
+}
+
+.os-name {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    font-family: 'Patrick Hand', cursive;
+    letter-spacing: 1px;
+}
+
+.vs-badge {
+    font-size: 40px;
+    font-weight: 900;
+    font-style: italic;
+    color: #444;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Password Game Trigger */
+.game-trigger-container {
+    margin-top: 15px;
+}
+
+#play-game-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+#play-game-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+/* Password Game Overlay */
+#password-game-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    z-index: 10002;
+    /* Higher than everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-content {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 30px;
+    text-align: center;
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.close-game-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close-game-btn:hover {
+    color: white;
+}
+
+.game-title {
+    font-family: 'Patrick Hand', cursive;
+    color: white;
+    font-size: 36px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.puzzle-display {
+    font-family: 'Patrick Hand', cursive;
+    color: #fff;
+    font-size: 40px;
+    letter-spacing: 15px;
+    margin-bottom: 40px;
+    min-height: 50px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.game-keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.key-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.key-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, 0.3);
+    border-color: transparent;
+}
+
+.key-btn.correct {
+    background: rgba(0, 255, 0, 0.3);
+    border-color: rgba(0, 255, 0, 0.5);
+}
+
+.key-btn.wrong {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
+.game-status {
+    font-family: 'Patrick Hand', cursive;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 20px;
+    min-height: 30px;
+}
+
+.os-title {
+    font-size: 32px;
+    margin-bottom: 60px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-family: 'Patrick Hand', cursive;
+    /* switched to Crayon font for this question */
+    text-transform: none;
+    text-align: center;
+    line-height: 1.3;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(to bottom, #fff, #bbb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.os-container {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+}
+
+.os-card {
+    width: 300px;
+    height: 300px;
+    /* Square and Big */
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Center content vertically too */
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.os-card:hover {
+    transform: translateY(-10px) scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.os-card.mac:hover {
+    box-shadow: 0 0 50px rgba(0, 150, 255, 0.4);
+}
+
+.os-card.win:hover {
+    box-shadow: 0 0 50px rgba(255, 80, 80, 0.4);
+}
+
+.os-image-container {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.os-img {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+    transition: transform 0.3s;
+}
+
+.os-card:hover .os-img {
+    transform: scale(1.15);
+}
+
+.os-name {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 0px;
+    font-family: 'Patrick Hand', cursive;
+    letter-spacing: 1px;
+}
+
+.vs-badge {
+    font-size: 40px;
+    font-weight: 900;
+    font-style: italic;
+    color: #444;
+    text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.1);
+    font-family: 'Inter', sans-serif;
+}
+
+/* Icons not needed basically */
+.os-icon {
+    display: none;
+}
+
+/* ----------------
+   Password Screen 
+   ---------------- */
+#password-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/wallpaper.jpg');
+    /* Use same wallpaper */
+    background-size: cover;
+    background-position: center;
+    display: none;
+    /* Hidden initially */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9000;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+/* Blur overlay for background */
+#password-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(15px) brightness(0.8);
+    -webkit-backdrop-filter: blur(15px) brightness(0.8);
+    z-index: -1;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.avatar-container {
+    width: 90px;
+    height: 90px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.avatar {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    filter: invert(1);
+    /* If the icon is black, invert it */
+}
+
+.user-name {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 180px;
+    display: flex;
+    align-items: center;
+}
+
+#password-input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    font-size: 13px;
+    outline: none;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+#password-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#password-input:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+#login-btn {
+    position: absolute;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+}
+
+#password-input:focus+#login-btn,
+#password-input:not(:placeholder-shown)+#login-btn {
+    opacity: 1;
+}
+
+#login-btn:hover {
+    background: #fff;
+}
+
+.login-help {
+    margin-top: 10px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.bottom-menu {
+    position: absolute;
+    bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    font-size: 12px;
+}
+
+.bottom-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.bottom-item:hover {
+    opacity: 1;
+}
+
+.icon-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    backdrop-filter: blur(5px);
+}
+
+/* ----------------
+   Desktop Environment 
+   ---------------- */
+#desktop {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    /* Hidden initially */
+    transition: opacity 1.5s ease-in-out;
+}
+
+/* Menu Bar */
+.menu-bar {
+    width: 100%;
+    height: 28px;
+    background-color: rgba(255, 255, 255, 0.4);
+    /* Light mode translucent */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    color: #000;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.menu-left,
+.menu-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-item {
+    cursor: default;
+    opacity: 0.9;
+}
+
+.menu-item:hover {
+    opacity: 1;
+}
+
+.apple-icon {
+    font-size: 15px;
+}
+
+.app-name {
+    font-weight: 700;
+}
+
+.menu-right .icon {
+    font-size: 14px;
+}
+
+/* Dock */
+.dock-container {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    /* Let clicks pass through container area */
+}
+
+.dock {
+    display: flex;
+    align-items: flex-end;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 8px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    gap: 8px;
+    pointer-events: auto;
+    transition: transform 0.2s;
+    height: auto;
+}
+
+.dock-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), margin 0.2s;
+    position: relative;
+    transform-origin: bottom center;
+}
+
+.dock-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: width 0.2s;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+.dock-icon:hover {
+    transform: scale(1.4) translateY(-15px);
+    margin: 0 10px;
+}
+
+.dock-icon:hover+.dock-icon,
+.dock-icon:has(+ .dock-icon:hover) {
+    transform: scale(1.15) translateY(-5px);
+    margin: 0 5px;
+}
+
+.separator {
+    width: 1px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 0 5px;
+    align-self: center;
+}
+
+/* Tooltips */
+.dock-icon::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(246, 246, 246, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #333;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dock-icon:hover::after {
+    opacity: 1;
+    transition-delay: 0.1s;
+}
+
+/* Animations & Details */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.bounce {
+    animation: bounce 0.6s ease infinite;
+}
+
+/* Shake Animation for wrong password */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+/* Control Center */
+#control-center {
+    position: absolute;
+    top: 36px;
+    right: 10px;
+    width: 320px;
+    background: rgba(230, 230, 230, 0.6);
+    /* Use lighter background for panel container if transparent */
+    /* Big Sur Control Center actually has individual glass modules, 
+       but the panel itself often has a blur if detached or just modules floating. 
+       Let's do floating modules inside a container for simpler layout or a container with blur.
+       Big Sur: The container itself provides the blur.
+    */
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 18px;
+    padding: 12px;
+    display: none;
+    /* Flex when active */
+    flex-direction: column;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 20px 40px rgba(0, 0, 0, 0.2);
+    z-index: 5000;
+}
+
+.cc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+}
+
+.cc-module {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: background 0.2s;
+}
+
+.cc-module:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.cc-connectivity {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    /* Tall module */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.cc-col-right {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cc-dnd,
+.cc-mirroring {
+    height: 60px;
+    /* Approximate half height */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cc-slider-row {
+    grid-column: 1 / 3;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+}
+
+.cc-music {
+    grid-column: 1 / 3;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cc-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cc-icon-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.blue-bg {
+    background-color: #007AFF;
+}
+
+.purple-bg {
+    background-color: #5E5CE6;
+}
+
+.cc-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.cc-text-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.cc-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.cc-status {
+    font-size: 11px;
+    color: #333;
+    opacity: 0.8;
+}
+
+/* Sliders */
+.cc-label {
+    position: absolute;
+    top: 6px;
+    left: 40px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #555;
+    z-index: 2;
+    opacity: 0;
+    /* Hidden usually in Big Sur unless expanded, icon used instead */
+}
+
+.cc-slider-track {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cc-slider-fill {
+    height: 100%;
+    background: #fff;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cc-slider-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 14px;
+    color: #666;
+    mix-blend-mode: multiply;
+    /* Try to make it look embedded */
+}
+
+/* Music */
+.music-icon {
+    width: 40px;
+    height: 40px;
+    background: #eee;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.music-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.music-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+}
+
+.music-artist {
+    font-size: 11px;
+    color: #666;
+}
+
+.music-controls {
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* ----------------
+   High Fidelity Polish 
+   ---------------- */
+
+/* Custom Cursor */
+body {
+    cursor: url('data:image/svg+xml;utf8,<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 2L18 13.5H11.5L15 21L12.5 22L8 14.5L2.5 19V2Z" fill="black" stroke="white" stroke-width="1.5"/></svg>'), auto;
+}
+
+/* Dropdown Menus */
+.dropdown-menu {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    min-width: 220px;
+    background: rgba(255, 255, 255, 0.5);
+    /* Heavier glass */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 0 0 10px 10px;
+    padding: 6px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
+    z-index: 5000;
+}
+
+#apple-dropdown {
+    left: 10px;
+    /* Offset slightly */
+    border-radius: 10px;
+    top: 35px;
+    /* Spaced from bar */
+}
+
+.dropdown-item {
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: #000;
+    cursor: default;
+}
+
+.dropdown-item:hover {
+    background: #007AFF;
+    color: white;
+}
+
+.dropdown-separator {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 4px 10px;
+}
+
+/* Context Menu */
+#context-menu {
+    position: fixed;
+    min-width: 200px;
+    background: rgba(240, 240, 240, 0.75);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border-radius: 8px;
+    padding: 5px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    z-index: 6000;
+}
+
+/* Windows */
+.window {
+    position: absolute;
+    background: #ececec;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    border: 0.5px solid rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    width: 580px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.window-header {
+    height: 52px;
+    background: #e6e6e6;
+    /* Slight separation */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    user-select: none;
+}
+
+.window-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.control-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: inset 0 0.5px 1px rgba(0, 0, 0, 0.2);
+}
+
+.control-btn:hover {
+    filter: brightness(0.9);
+}
+
+.red {
+    background: #FF5F57;
+    border: 0.5px solid #E33E32;
+}
+
+.yellow {
+    background: #FFBD2E;
+    border: 0.5px solid #E1A116;
+}
+
+.green {
+    background: #28C840;
+    border: 0.5px solid #1D9D30;
+}
+
+.window-title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: #444;
+    pointer-events: none;
+}
+
+.window-content {
+    padding: 30px 40px;
+    display: flex;
+    gap: 30px;
+    background: linear-gradient(180deg, #fbfbfb 0%, #ececec 100%);
+}
+
+.about-logo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.about-info h2 {
+    margin-bottom: 2px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.small-text {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.about-details p {
+    font-size: 12px;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.about-buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+.mac-btn {
+    padding: 4px 12px;
+    background: #fff;
+    border: 0.5px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.mac-btn:active {
+    background: #f0f0f0;
+}
+
+/* Dock Indicators */
+.dock-icon.active::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    /* Positioned just below dock container padding */
+    width: 4px;
+    height: 4px;
+    background: #333;
+    /* Dark indicator */
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+/* ----------------
+   Photos App Styles 
+   ---------------- */
+#photos-window {
+    background-color: #fff;
+    /* Big Sur Photos is mostly white/light gray in main area */
+    display: flex;
+    flex-direction: column;
+    width: 1100px;
+    height: 700px;
+}
+
+.photos-header {
+    background: rgba(246, 246, 246, 0.85);
+    /* Slightly translucent header */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    /* To allow centering if needed, but we have controls on left */
+    z-index: 2;
+}
+
+.photos-toolbar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 80px;
+    /* Balance the window controls on the left */
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.05);
+    /* Segmented control look */
+    border-radius: 6px;
+    padding: 2px;
+}
+
+.toolbar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    padding: 0 10px;
+}
+
+.photos-content {
+    flex: 1;
+    display: flex;
+    padding: 0;
+    /* Reset default window padding */
+    overflow: hidden;
+    background: #fff;
+}
+
+/* Sidebar */
+.photos-sidebar {
+    width: 260px;
+    background: rgba(242, 242, 247, 0.7);
+    /* Translucent sidebar */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+    overflow-y: auto;
+}
+
+.sidebar-section {
+    margin-bottom: 25px;
+}
+
+.sidebar-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    margin-bottom: 5px;
+    padding-left: 12px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 1px;
+    margin-bottom: 2px;
+    border-radius: 6px;
+    cursor: default;
+    color: #333;
+    font-size: 13px;
+    padding-left: 12px;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-item.active {
+    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #e5e5ea;
+    color: #000;
+    font-weight: 500;
+}
+
+.sidebar-icon {
+    font-size: 16px;
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Main Gallery */
+.photos-main {
+    flex: 1;
+    padding: 20px 30px;
+    overflow-y: auto;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.gallery-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.gallery-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+}
+
+.gallery-date {
+    font-size: 15px;
+    color: #888;
+    font-weight: 500;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 15px;
+    width: 100%;
+}
+
+.photo-item {
+    aspect-ratio: 1 / 1;
+    background-color: #eee;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s;
+    /* Text centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.photo-msg {
+    color: #444;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.4;
+    font-family: 'Patrick Hand', cursive;
+    /* Crayon style font */
+}
+
+.photo-item:hover {
+    filter: brightness(0.95);
+}
+
+.photo-item.placeholder-photo {
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+/* Video Indicator */
+.video-item .play-icon {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    color: white;
+    font-size: 12px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Resize Handle */
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    cursor: nwse-resize;
+    z-index: 10;
+}
+
+/* Optional visual indicator for resize handle on hover */
+.resize-handle:hover::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid #888;
+    border-bottom: 2px solid #888;
+}
+
+
+/* --------------------------
+   (Game styles migrated to cake_style.css)
+   -------------------------- */
+
+/* Hidden Hearts on Desktop */
+.hidden-heart {
+    position: absolute;
+    font-size: 24px;
+    color: #ff69b4;
+    opacity: 0;
+    /* Hidden */
+    cursor: default;
+    transition: all 0.5s;
+    z-index: 1;
+    /* Below windows */
+}
+
+.hidden-heart.found {
+    opacity: 1;
+    transform: scale(2);
+    animation: heartBeat 1s infinite;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(2);
+    }
+
+    50% {
+        transform: scale(2.3);
+    }
+}
+
+/* Utility Class */
+.hidden {
+    display: none !important;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Bakery 🎂</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cake_style.css">
+</head>
+
+<body>
+
+    <!-- Background Particles Container -->
+    <div id="particles"></div>
+
+    <!-- Navigation -->
+    <button id="home-btn" class="nav-btn" title="Back to Desktop">🏠 Home</button>
+
+    <!-- Audio Element (Auto-loop handled in JS) -->
+    <!-- We will use AudioContext in JS for better control, but this is a backup/reference structure -->
+
+    <!-- Main Game Container -->
+    <div class="game-container">
+
+        <!-- Welcome / Start Screen -->
+        <div id="start-screen" class="screen active">
+            <h1 class="title-anim">Happy Birthday Aish! 🎉</h1>
+            <p class="subtitle">Ready to bake your surprise?</p>
+            <button id="start-game-btn" class="bubbly-button">Let's Bake! 🥣</button>
+        </div>
+
+        <!-- Level 1: Gather -->
+        <div id="level-1" class="screen">
+            <h2 class="level-title">Level 1: Catch Ingredients! 🥚</h2>
+            <div id="game-area-1" class="full-screen-area">
+                <div id="bowl-cursor">🥣</div>
+                <div class="score-display">Collected: <span id="score-1">0</span>/5</div>
+            </div>
+        </div>
+
+        <!-- Level 2: Mix -->
+        <div id="level-2" class="screen">
+            <h2 class="level-title">Level 2: Mix the Batter! 🥄</h2>
+            <div class="mix-container">
+                <div id="mixing-bowl">🥣</div>
+                <div id="spoon">🥄</div>
+            </div>
+            <div class="progress-bar-container">
+                <div id="mix-progress"></div>
+            </div>
+            <button id="mix-btn" class="bubbly-button">MIX IT UP!</button>
+        </div>
+
+        <!-- Level 3: Wish -->
+        <div id="level-3" class="screen">
+            <h2 class="level-title">Level 3: Make a Wish! 🕯️</h2>
+            <div id="final-cake-container">
+                <div class="cake-base">
+                    <div class="cake-layer bottom"></div>
+                    <div class="cake-layer middle"></div>
+                    <div class="cake-layer top"></div>
+                    <div class="icing-drip"></div>
+                    <div class="candles-row" id="candles-row"></div>
+                </div>
+            </div>
+            <button id="blow-btn" class="bubbly-button">💨 Blow Candles</button>
+        </div>
+
+        <!-- Final Celebration -->
+        <div id="final-screen" class="screen">
+            <h1 class="mega-title">HAPPY BIRTHDAY! 🎂</h1>
+            <p class="love-note">You make the world sweeter just by being in it. ❤️</p>
+            <div class="gallery-preview">
+                <!-- Placeholders for cute polaroids if desired later -->
+            </div>
+            <button id="replay-btn" class="secondary-button">Bake Again ↺</button>
+        </div>
+
+    </div>
+
+    <script src="cake_script.js"></script>
+</body>
+
+</html>

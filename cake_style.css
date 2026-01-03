@@ -1,0 +1,366 @@
+/* cake_style.css - The "Cool Cool Cool" Edition */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow: hidden;
+    font-family: 'Patrick Hand', cursive;
+    /* Deep Animated Mesh Gradient */
+    background: radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+    background-color: #2d3436;
+    /* Fallback */
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+    color: white;
+    height: 100vh;
+    width: 100vw;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23FF69B4" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 12, auto;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    /* Hidden by default */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.screen.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Navigation Button */
+.nav-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 30px;
+    color: white;
+    font-size: 1.2rem;
+    font-family: inherit;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+.title-anim {
+    font-size: 6rem;
+    background: -webkit-linear-gradient(#ff9a9e, #fecfef);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 5px 15px rgba(255, 105, 180, 0.4));
+    animation: float 3s ease-in-out infinite;
+}
+
+.subtitle {
+    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 40px;
+}
+
+.level-title {
+    font-size: 3rem;
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    text-align: center;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Bubbly Button */
+.bubbly-button {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 2rem;
+    padding: 1em 2em;
+    background-color: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 10px 20px rgba(255, 105, 180, 0.4), 0 6px 0 #d63384;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.bubbly-button:active {
+    transform: translateY(6px);
+    box-shadow: 0 4px 20px rgba(255, 105, 180, 0.4), 0 0px 0 #d63384;
+}
+
+/* Level 1: Gather */
+.full-screen-area {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#bowl-cursor {
+    position: absolute;
+    font-size: 80px;
+    pointer-events: none;
+    /* Let clicks pass through to items if needed, but we check collision in JS */
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+}
+
+.falling-ingredient {
+    position: absolute;
+    font-size: 60px;
+    top: -100px;
+    user-select: none;
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.3));
+}
+
+.score-display {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Level 2: Mix */
+.mix-container {
+    position: relative;
+    font-size: 150px;
+    margin-bottom: 50px;
+}
+
+#mixing-bowl {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#spoon {
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    font-size: 100px;
+    transform-origin: bottom left;
+    transition: transform 0.1s;
+}
+
+.progress-bar-container {
+    width: 300px;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+#mix-progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff9ff3, #feca57);
+    box-shadow: 0 0 15px #ff9ff3;
+    transition: width 0.1s;
+}
+
+/* Level 3: Cake & Candles */
+#final-cake-container {
+    position: relative;
+    margin-bottom: 50px;
+    transform: scale(1.5);
+}
+
+.cake-base {
+    position: relative;
+    width: 250px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+.cake-layer {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: inset -10px 0 0 rgba(0, 0, 0, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cake-layer.bottom {
+    height: 60px;
+    background: linear-gradient(to right, #ffecd2, #fcb69f);
+    width: 250px;
+}
+
+.cake-layer.middle {
+    height: 50px;
+    background: linear-gradient(to right, #a18cd1, #fbc2eb);
+    width: 200px;
+    margin-bottom: -5px;
+}
+
+.cake-layer.top {
+    height: 40px;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    width: 150px;
+    margin-bottom: -5px;
+}
+
+.candles-row {
+    position: absolute;
+    top: -35px;
+    display: flex;
+    gap: 15px;
+    z-index: 5;
+}
+
+.candle {
+    width: 10px;
+    height: 35px;
+    background: repeating-linear-gradient(45deg, #00d2d3, #00d2d3 5px, #fff 5px, #fff 10px);
+    border-radius: 3px;
+    position: relative;
+}
+
+.flame {
+    width: 12px;
+    height: 18px;
+    background: radial-gradient(ellipse at bottom, #ffff00 0%, #ff6b6b 100%);
+    border-radius: 50% 50% 20% 20%;
+    position: absolute;
+    top: -16px;
+    left: -1px;
+    transform-origin: bottom center;
+    animation: flicker 0.1s infinite alternate;
+    box-shadow: 0 0 15px #ff9f43;
+}
+
+@keyframes flicker {
+    from {
+        transform: scale(1);
+        opacity: 0.9;
+    }
+
+    to {
+        transform: scale(1.1) rotate(2deg);
+        opacity: 1;
+    }
+}
+
+/* Particles & Effects */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: floatAway 1s forwards ease-out;
+}
+
+@keyframes floatAway {
+    to {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+.smoke {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    filter: blur(5px);
+    animation: riseSmoke 2s forwards;
+}
+
+@keyframes riseSmoke {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-50px) scale(3);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Final Screen */
+.mega-title {
+    font-size: 5rem;
+    color: #fff;
+    text-shadow: 0 0 20px #ff69b4;
+    text-align: center;
+}
+
+.love-note {
+    font-size: 2rem;
+    margin-top: 20px;
+    color: #ffeaa7;
+}
+
+#replay-btn {
+    margin-top: 50px;
+    background: transparent;
+    border: 2px solid white;
+    padding: 10px 30px;
+    color: white;
+    border-radius: 30px;
+    font-family: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#replay-btn:hover {
+    background: white;
+    color: #ff69b4;
+}
